@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from .models import File
 
@@ -21,6 +22,19 @@ def file_detail_view(request, pk):
         'common/download.html',
         context={'file': file_id, }
     )
+
+
+@login_required
+def profile(request):
+    files_count = File.objects.filter(user=request.user).count()
+    last_files = File.objects.filter(user=request.user).order_by('-upload_date')[:2]
+
+    return render(
+        request,
+        'userpage/profile.html',
+        context={'files_count': files_count, 'last_files': last_files, },
+    )
+
 
 class MyFilesListView(LoginRequiredMixin, generic.ListView):
     model = File
