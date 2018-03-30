@@ -12,7 +12,7 @@ class File(models.Model):
     upload_date = models.DateTimeField(verbose_name="Date of file upload")
     link = models.CharField(max_length=50, verbose_name="Link to file")
     path_on_disk = models.CharField(max_length=50, verbose_name="Path on disk")
-    time_to_live = models.DurationField()
+    time_to_live = models.DateTimeField(verbose_name="Delete Date", blank=True, null=True)
     file_type = models.CharField(max_length=50, help_text="Enter file type", verbose_name="File type")
     size = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
