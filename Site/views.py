@@ -43,3 +43,11 @@ class MyFilesListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return File.objects.filter(user=self.request.user)
+
+
+class RandomFilesListView(generic.ListView):
+    model = File
+    template_name = 'common/random_file.html'
+
+    def get_queryset(self):
+        return File.objects.filter().order_by('?')[:2]
