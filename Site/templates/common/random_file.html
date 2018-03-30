@@ -40,5 +40,20 @@
         "{% url 'new_random_files' %}?ttl=hour"
       );
     });
+     $("#button_day").click(function() {
+      $('#random_file_list').load(
+        "{% url 'new_random_files' %}?ttl=day"
+      );
+    });
+     $("#button_week").click(function() {
+      $('#random_file_list').load(
+        "{% url 'new_random_files' %}?ttl=week"
+      );
+    });
+     $("#button_none").click(function() {
+      $('#random_file_list').load(
+        "{% url 'new_random_files' %}?ttl=none"
+      );
+    });
 </script>
 {% endblock %}
