@@ -8,16 +8,16 @@
             <h4> TTL:</h4>
 
             <div class="list-group">
-              <button id="button_none" type="button" class="list-group-item list-group-item-action active">
+              <button id="button_none" type="button" class="list-group-item list-group-item-action active button_filter">
                   None
               </button>
-              <button id="button_hour" type="button" class="list-group-item list-group-item-action">
+              <button id="button_hour" type="button" class="list-group-item list-group-item-action button_filter">
                   Hour
               </button>
-              <button id="button_day" type="button" class="list-group-item list-group-item-action">
+              <button id="button_day" type="button" class="list-group-item list-group-item-action button_filter">
                   Day
               </button>
-              <button id="button_week" type="button" class="list-group-item list-group-item-action">
+              <button id="button_week" type="button" class="list-group-item list-group-item-action button_filter">
                   Week
               </button>
             </div>
@@ -36,21 +36,25 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
     $("#button_hour").click(function() {
+        $(this).addClass('active').siblings().removeClass('active');
       $('#random_file_list').load(
         "{% url 'new_random_files' %}?ttl=hour"
       );
     });
      $("#button_day").click(function() {
+         $(this).addClass('active').siblings().removeClass('active');
       $('#random_file_list').load(
         "{% url 'new_random_files' %}?ttl=day"
       );
     });
      $("#button_week").click(function() {
+         $(this).addClass('active').siblings().removeClass('active');
       $('#random_file_list').load(
         "{% url 'new_random_files' %}?ttl=week"
       );
     });
      $("#button_none").click(function() {
+         $(this).addClass('active').siblings().removeClass('active');
       $('#random_file_list').load(
         "{% url 'new_random_files' %}?ttl=none"
       );
