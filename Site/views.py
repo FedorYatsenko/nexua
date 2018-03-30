@@ -51,3 +51,14 @@ class RandomFilesListView(generic.ListView):
 
     def get_queryset(self):
         return File.objects.filter().order_by('?')[:2]
+
+
+class NewRandomFilesListView(generic.ListView):
+    model = File
+    template_name = 'common/new_random_files.html'
+
+    def get_queryset(self):
+        ttl = self.request.GET.get('ttl')
+
+        if ttl:
+            return File.objects.filter().order_by('?')[:2]
