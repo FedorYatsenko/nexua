@@ -23,3 +23,11 @@ class File(models.Model):
     def get_absolute_url(self):
         return reverse('file-detail', args=[str(self.id)])
 
+    @property
+    def ttl_filter(self):
+        if self.time_to_live == 0:
+            return "none"
+        elif self.time_to_live == 1:
+            return "hour"
+        else:
+            return "day"
