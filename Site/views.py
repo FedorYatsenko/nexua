@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from datetime import datetime, timedelta
 
 from .models import File
 
@@ -61,4 +62,14 @@ class NewRandomFilesListView(generic.ListView):
         ttl = self.request.GET.get('ttl')
 
         if ttl:
-            return File.objects.filter().order_by('?')[:2]
+            if ttl == "hour":
+                time_hour = datetime.now() + timedelta(hours=1)
+                return File.objects.filter(time_to_live__isnull=False, time_to_live__lt=time_hour).order_by('?')[:2]
+            elif ttl == "day":
+                time_hour = datetime.now() + timedelta(days=1)
+                return File.objects.filter(time_to_live__isnull=False, time_to_live__lt=time_hour).order_by('?')[:2]
+            elif ttl == "week":
+                time_hour = datetime.now() + timedelta(weeks=1)
+                return File.objects.filter(time_to_live__isnull=False, time_to_live__lt=time_hour).order_by('?')[:2]
+            else:
+                return File.objects.filter().order_by('?')[:2]
