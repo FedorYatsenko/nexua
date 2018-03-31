@@ -3,13 +3,13 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 col-md-2 col-xl-1">
+        <div class="col-sm-4 col-md-3 col-lg-2">
             <h2 class="text-center">Filters</h2>
             <h4> TTL:</h4>
 
             <div class="list-group">
-              <button id="button_none" type="button" class="list-group-item list-group-item-action active button_filter">
-                  None
+              <button id="button_all" type="button" class="list-group-item list-group-item-action active button_filter">
+                  All
               </button>
               <button id="button_hour" type="button" class="list-group-item list-group-item-action button_filter">
                   Hour
@@ -24,7 +24,7 @@
         </div>
 
 
-        <div id="random_file_list" class="col-sm-9 col-md-10 col-xl-11">
+        <div id="random_file_list" class="col-sm-8 col-md-9 col-lg-10">
             {% include 'common/new_random_files.html' %}
         </div>
     </div>
@@ -53,10 +53,10 @@
         "{% url 'new_random_files' %}?ttl=week"
       );
     });
-     $("#button_none").click(function() {
+     $("#button_all").click(function() {
          $(this).addClass('active').siblings().removeClass('active');
       $('#random_file_list').load(
-        "{% url 'new_random_files' %}?ttl=none"
+        "{% url 'new_random_files' %}?ttl=all"
       );
     });
 </script>
