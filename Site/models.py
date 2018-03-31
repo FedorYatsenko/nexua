@@ -7,7 +7,7 @@ from django.urls import reverse
 # Create your models here.
 
 class File(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    #id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     file_name = models.CharField(max_length=50, help_text="Enter file name", verbose_name="File name")
     upload_date = models.DateTimeField(verbose_name="Date of file upload")
     link = models.CharField(max_length=50, verbose_name="Link to file")
@@ -21,5 +21,5 @@ class File(models.Model):
         return 'id: %s  name: %s date: %s type: %s size: %s user: %s' % (self.id, self.file_name, self.upload_date, self.file_type, self.size, self.user.__str__())
 
     def get_absolute_url(self):
-        return reverse('file-details', args=[str(self.id)])
+        return reverse('file-detail', args=[str(self.id)])
 
