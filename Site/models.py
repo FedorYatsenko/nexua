@@ -16,7 +16,7 @@ class File(models.Model):
     file_type = models.CharField(max_length=50, help_text="Enter file type", verbose_name="File type")
     size = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    file_itself = models.FileField(upload_to="D:\\nexua_files")
+    file_itself = models.FileField()
 
     def __str__(self):
         return 'id: %s  name: %s date: %s type: %s size: %s user: %s' % (self.id, self.file_name, self.upload_date, self.file_type, self.size, self.user.__str__())
