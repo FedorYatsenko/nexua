@@ -1,13 +1,36 @@
 {% if object_list %}
-<ul>
+<div>
 
   {% for file in object_list %}
-  <li>
-    {{file}}
-  </li>
+    <div class="card m-3">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-2 col-xl-1 align-self-center">
+                {% load static %}
+                <img class="card-img-bottom" src="{% static file.get_logo %}" alt="Card image">
+            </div>
+
+            <div class="col-sm-8 col-md-9 col-lg-7 col-xl-9">
+                <div class="card-body">
+                    <h5 class="card-title">{{file.file_name}}</h5>
+                    <p class="card-text">Size: {{file.get_size}}</p>
+                    {% if file.time_to_live %}
+                        <p class="text-danger">File will be deleted in {{file.get_time_to_delete}}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12 col-lg-3 col-xl-2 align-self-center text-center">
+                <a href="{{ file.get_absolute_url }}" class="btn btn-primary">File page</a>
+            </div>
+        </div>
+
+        <div class="card-footer">
+          <small class="text-muted">Upload {{file.get_upload_time}} ago</small>
+        </div>
+    </div>
   {% endfor %}
 
-</ul>
+</div>
 {% else %}
   <p>There are no such files.</p>
 {% endif %}
