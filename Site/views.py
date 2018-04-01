@@ -145,22 +145,22 @@ class NewRandomFilesListView(generic.ListView):
 
         if ttl:
             if ttl == "hour":
-                time_hour = datetime.now() + timedelta(hours=1)
+                time_hour = timezone.now() + timedelta(hours=1)
                 return File.objects.filter(time_to_live__isnull=False,
-                                           time_to_live__gt=datetime.now(),
+                                           time_to_live__gt=timezone.now(),
                                            time_to_live__lt=time_hour
                                            ).order_by('?')[:2]
             elif ttl == "day":
-                time_day = datetime.now() + timedelta(days=1)
+                time_day = timezone.now() + timedelta(days=1)
                 return File.objects.filter(time_to_live__isnull=False,
-                                           time_to_live__gt=datetime.now(),
+                                           time_to_live__gt=timezone.now(),
                                            time_to_live__lt=time_day
                                            ).order_by('?')[:2]
             elif ttl == "week":
-                time_week = datetime.now() + timedelta(weeks=1)
+                time_week = timezone.now() + timedelta(weeks=1)
                 return File.objects.filter(time_to_live__isnull=False,
-                                           time_to_live__gt=datetime.now(),
+                                           time_to_live__gt=timezone.now(),
                                            time_to_live__lt=time_week
                                            ).order_by('?')[:2]
             else:
-                return File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=datetime.now())).order_by('?')[:2]
+                return File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).order_by('?')[:2]

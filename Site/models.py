@@ -40,7 +40,7 @@ class File(models.Model):
 
     def get_time_to_delete(self):
         if self.time_to_live:
-            period = self.time_to_live - datetime.now(timezone.now().tzinfo)
+            period = self.time_to_live - timezone.now()
 
             if period.days < 0:
                 return "now"
@@ -61,7 +61,7 @@ class File(models.Model):
                     return '{:d} days'.format(period.days)
 
     def get_upload_time(self):
-        period = datetime.now(timezone.now().tzinfo) - self.upload_date
+        period = timezone.now() - self.upload_date
 
         if period.days < 0:
             return "now"
