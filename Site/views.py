@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 import random
 from django.core.files import File as StandartFile
-
+from django.utils import timezone
 from .models import File
 from django.core.files.storage import FileSystemStorage
 from .forms import UploadFileForm
@@ -73,7 +73,8 @@ def upload(request):
         form = UploadFileForm(request.POST, request.FILES)
         uploaded_file = File()
         uploaded_file.file_itself = request.FILES['file']
-        uploaded_file.upload_date = datetime.datetime.now()
+       # uploaded_file.upload_date = datetime.datetime.now(timezone.now().tzinfo)
+        uploaded_file.upload_date = timezone.now()
         uploaded_file.size = StandartFile(request.FILES['file']).size
         rand_id = str(random.randint(0, 10000))
         uploaded_file_name = StandartFile(request.FILES['file']).name
