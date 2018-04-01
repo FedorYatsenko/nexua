@@ -2,6 +2,11 @@ from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+
+import random
+from django.core.files import File as StandartFile
+
+from django.utils import timezone
 from datetime import datetime, timedelta
 from django.db.models import Q
 
@@ -43,33 +48,57 @@ def profile(request):
         'userpage/profile.html',
         context={'files_count': files_count, 'last_files': last_files, },
     )
+
+
+class MyFilesListView(LoginRequiredMixin, generic.ListView):
+    model = File
+    paginate_by = 2
+    template_name = 'userpage/my_files.html'
+
+    def get_queryset(self):
+        return File.objects.filter(user=self.request.user)
+
+
+class RandomFilesListView(generic.ListView):
+    model = File
+    template_name = 'common/random_file.html'
+
+    def get_queryset(self):
+        return File.objects.filter().order_by('?')[:2]
+
+
+def handle_uploaded_file(f, path):
+    with open(path, 'wb+') as dest:
+        for chunk in f.chunks():
+            dest.write(chunk)
+
   
- 
+"""
 def handle_uploaded_file(request):
     save_path = os.path.join(settings.MEDIA_ROOT, 'uploads', request.FILES.get('file'))
     path = default_storage.save(save_path, request.FILES.get('file'))
+"""
 
 
 def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         uploaded_file = File()
-        # uploaded_file.file_itself = form.cleaned_data.get('file')
-        uploaded_file.file_itself = request.POST.get('file')
-        uploaded_file.upload_date = datetime.datetime.now()
-        # uploaded_file.size = form.cleaned_data.get('file').size
-        uploaded_file.size = 100
-        uploaded_file.path_on_disk = 'D:\\nexua_files'
-        uploaded_file.link = 'abclink'
-        uploaded_file.file_type = 'txt'
-        uploaded_file.file_name = 'newfile1'
+        uploaded_file.file_itself = request.FILES['file']
+       # uploaded_file.upload_date = datetime.datetime.now(timezone.now().tzinfo)
+        uploaded_file.upload_date = timezone.now()
+        uploaded_file.size = StandartFile(request.FILES['file']).size
+        rand_id = str(random.randint(0, 10000))
+        uploaded_file_name = StandartFile(request.FILES['file']).name
+        filename, file_extension = os.path.splitext(uploaded_file_name)
+        uploaded_file.path_on_disk = "D:\\" + filename + rand_id + file_extension
+        uploaded_file.link = filename + rand_id
+        uploaded_file.file_name = uploaded_file_name
+        uploaded_file.file_type = file_extension
         uploaded_file.time_to_live = datetime.timedelta(days=2)
         uploaded_file.user = request.user
         uploaded_file.save()
-        handle_uploaded_file(request.FILES.get('file'))
-
-
-
+        handle_uploaded_file(request.FILES.get('file'), "D:\\" + filename + rand_id + file_extension)
         return render(
             request,
             'userpage/upload.html',
