@@ -5,10 +5,17 @@ from django.urls import reverse
 
 from django.utils import timezone
 
-from datetime import datetime
 
+icons = ('accdb', 'bmp', 'docx', 'eps',
+         'gif', 'ind', 'jpeg', 'midi',
+         'mp3', 'pdf', 'pptx', 'psd',
+         'pub', 'tiff', 'url', 'wav',
+         'wmv', 'zip', 'avi', 'css',
+         'eml', 'fla', 'html', 'ini',
+         'jsf', 'mov', 'mpeg', 'png',
+         'proj', 'pst', 'rar', 'txt',
+         'vsd', 'wma', 'xlsx')
 
-# Create your models here.
 
 class File(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4())
@@ -85,4 +92,7 @@ class File(models.Model):
                 return '{:d} days'.format(period.days)
 
     def get_logo(self):
-        return 'img/icons/{}.png'.format(self.file_type)
+        if self.file_type in icons:
+            return 'img/icons/{}.png'.format(self.file_type)
+        else:
+            return 'img/icons/other.png'
