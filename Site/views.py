@@ -125,7 +125,8 @@ class MyFilesListView(LoginRequiredMixin, generic.ListView):
     template_name = 'userpage/my_files.html'
 
     def get_queryset(self):
-        return File.objects.filter(user=self.request.user)
+        return File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now()),
+                                   user=self.request.user)
 
 
 class RandomFilesListView(generic.ListView):
@@ -133,7 +134,7 @@ class RandomFilesListView(generic.ListView):
     template_name = 'common/random_file.html'
 
     def get_queryset(self):
-        return File.objects.filter().order_by('?')[:2]
+        return File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).order_by('?')[:2]
 
       
 class NewRandomFilesListView(generic.ListView):
