@@ -1,38 +1,79 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3> My files </h3>
-<br>
-{% if object_list %}
-    <ul>
+<div class="container-fluid">
 
-      {% for file in object_list %}
-      <li>
-        {{file}}
-      </li>
-      {% endfor %}
+    {% include 'common/new_random_files.html' %}
 
-    </ul>
-    {% else %}
-      <p>There are no file in the My Files.</p>
-    {% endif %}
+    {% if is_paginated %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item"  title="First page">
+                  <a class="page-link" href="{{ request.path }}?page=1">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">First</span>
+                  </a>
+                </li>
 
-{% block pagination %}
-  {% if is_paginated %}
-      <div class="pagination">
-          <span class="page-links">
-              {% if page_obj.has_previous %}
-                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-              {% endif %}
-              <span class="page-current">
-                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                {% if page_obj.previous_page_number != 1 %}
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" tabindex="-1">
+                        <span>...</span>
+                      </a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item">
+                    <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">
+                        {{ page_obj.previous_page_number }}
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">First</span>
+                  </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+              <span class="page-link">
+                {{ page_obj.number }}
+                <span class="sr-only">(current)</span>
               </span>
-              {% if page_obj.has_next %}
-                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-              {% endif %}
-          </span>
-      </div>
-  {% endif %}
-{% endblock %}
+            </li>
 
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">
+                        {{ page_obj.next_page_number }}
+                    </a>
+                </li>
+
+                {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" tabindex="-1">
+                        <span>...</span>
+                      </a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item"  title="Last page">
+                  <a class="page-link" href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Last</span>
+                  </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Last</span>
+                  </a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>
 {% endblock %}
