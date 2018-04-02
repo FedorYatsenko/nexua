@@ -28,6 +28,9 @@ class File(models.Model):
     def get_absolute_url(self):
         return reverse('file-detail', args=[str(self.id)])
 
+    def get_fullname(self):
+        return '%s.%s' % (self.file_name, self.file_type)
+
     def get_size(self):
         if self.size // 1073741824:
             return '{:01.2f} Gb'.format(self.size / 1073741824)
