@@ -17,6 +17,26 @@ icons = ('accdb', 'bmp', 'docx', 'eps',
          'vsd', 'wma', 'xlsx')
 
 
+def get_user_time(period):
+    if period.days < 0:
+        return "now"
+
+    if period.days == 0:
+        if period.seconds > 3600:
+            return '{:d} hours'.format(period.seconds // 3600)
+        elif period.seconds > 60:
+            return '{:d} minutes'.format(period.seconds // 60)
+        else:
+            return '{:d} seconds'.format(period.seconds)
+    else:
+        if period.days > 364:
+            return '{:d} years'.format(period.days // 364)
+        elif period.days > 14:
+            return '{:d} weeks'.format(period.days // 7)
+        else:
+            return '{:d} days'.format(period.days)
+
+
 class File(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     file_name = models.CharField(max_length=50, help_text="Enter file name", verbose_name="File name")
@@ -52,44 +72,11 @@ class File(models.Model):
         if self.time_to_live:
             period = self.time_to_live - timezone.now()
 
-            if period.days < 0:
-                return "now"
-
-            if period.days == 0:
-                if period.seconds > 3600:
-                    return '{:d} hours'.format(period.seconds // 3600)
-                elif period.seconds > 60:
-                    return '{:d} minutes'.format(period.seconds // 60)
-                else:
-                    return '{:d} seconds'.format(period.seconds)
-            else:
-                if period.days > 364:
-                    return '{:d} years'.format(period.days // 364)
-                elif period.days > 14:
-                    return '{:d} weeks'.format(period.days // 7)
-                else:
-                    return '{:d} days'.format(period.days)
+            return get_user_time(period)
 
     def get_upload_time(self):
         period = timezone.now() - self.upload_date
-
-        if period.days < 0:
-            return "now"
-
-        if period.days == 0:
-            if period.seconds > 3600:
-                return '{:d} hours'.format(period.seconds // 3600)
-            elif period.seconds > 60:
-                return '{:d} minutes'.format(period.seconds // 60)
-            else:
-                return '{:d} seconds'.format(period.seconds)
-        else:
-            if period.days > 364:
-                return '{:d} years'.format(period.days // 364)
-            elif period.days > 14:
-                return '{:d} weeks'.format(period.days // 7)
-            else:
-                return '{:d} days'.format(period.days)
+        return get_user_time(period)
 
     def get_logo(self):
         if self.file_type in icons:
