@@ -50,23 +50,6 @@ def profile(request):
     )
 
 
-class MyFilesListView(LoginRequiredMixin, generic.ListView):
-    model = File
-    paginate_by = 2
-    template_name = 'userpage/my_files.html'
-
-    def get_queryset(self):
-        return File.objects.filter(user=self.request.user)
-
-
-class RandomFilesListView(generic.ListView):
-    model = File
-    template_name = 'common/random_file.html'
-
-    def get_queryset(self):
-        return File.objects.filter().order_by('?')[:2]
-
-
 def handle_uploaded_file(f, path):
     with open(path, 'wb+') as dest:
         for chunk in f.chunks():
@@ -134,7 +117,8 @@ class RandomFilesListView(generic.ListView):
     template_name = 'common/random_file.html'
 
     def get_queryset(self):
-        return File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).order_by('?')[:2]
+        return File.objects.filter(
+            Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).order_by('?')[:2]
 
       
 class NewRandomFilesListView(generic.ListView):
@@ -164,4 +148,5 @@ class NewRandomFilesListView(generic.ListView):
                                            time_to_live__lt=time_week
                                            ).order_by('?')[:2]
             else:
-                return File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).order_by('?')[:2]
+                return File.objects.filter(
+                    Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).order_by('?')[:2]
