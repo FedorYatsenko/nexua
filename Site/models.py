@@ -5,6 +5,9 @@ from django.urls import reverse
 
 from django.utils import timezone
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 icons = ('accdb', 'bmp', 'docx', 'eps',
          'gif', 'ind', 'jpeg', 'midi',
@@ -83,3 +86,21 @@ class File(models.Model):
             return 'img/icons/{}.png'.format(self.file_type)
         else:
             return 'img/icons/other.png'
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+    def get_join_time(self):
+        period = timezone.now() - self.user.date_joined
+
+        return get_user_time(period)
