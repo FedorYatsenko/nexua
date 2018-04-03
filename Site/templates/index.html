@@ -1,5 +1,163 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3> index.html </h3>
+<div class="container">
+    <br>
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+            {% load static %}
+          <img class="d-block w-100" src="{% static 'img/Slides/test.jpeg' %}" alt="First slide">
+        </div>
+        <div class="carousel-item">
+            {% load static %}
+          <img class="d-block w-100" src="{% static 'img/Slides/test.jpeg' %}" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+            {% load static %}
+          <img class="d-block w-100" src="{% static 'img/Slides/test.jpeg' %}" alt="Third slide">
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="card bg-light mb-3 text-center">
+              <div class="card-header">Upload</div>
+              <div class="card-body">
+                <h3 class="card-title text-info">
+                    {{files_count}}
+                </h3>
+                <p class="card-text text-secondary">files</p>
+              </div>
+            </div>
+
+            <div class="card bg-light mb-3 text-center">
+              <div class="card-header">Members</div>
+              <div class="card-body">
+                <h3 class="card-title text-info">
+                    {{user_count}}
+                </h3>
+                <p class="card-text text-secondary">users</p>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card bg-light mb-3 text-center">
+              <div class="card-header">Available</div>
+              <div class="card-body">
+                <h3 class="card-title text-info">
+                    {{available_files_count}}
+                </h3>
+                <p class="card-text text-secondary">files</p>
+              </div>
+            </div>
+
+            <div class="card bg-light mb-3 text-center">
+              <div class="card-header">Total file size</div>
+              <div class="card-body">
+                <h3 class="card-title text-info">
+                    {{total_file_size}}
+                </h3>
+                <p class="card-text text-secondary"> bytes </p>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="card bg-light mb-3">
+              <div class="card-body">
+                  <h5 class="card-title text-center">Available limited time</h5>
+                  <p class="card-text">
+                      Only next hour:
+                      {% if files_count_hour %}
+                        {{files_count_hour}}
+                      {% else %}
+                        no such
+                      {% endif %}
+                      files
+                  </p>
+                  <p class="card-text">
+                      Only next day:
+                      {% if files_count_day %}
+                        {{files_count_day}}
+                      {% else %}
+                        no such
+                      {% endif %}
+                      files
+                  </p>
+                  <p class="card-text">
+                      Only next week:
+                      {% if files_count_week %}
+                        {{files_count_week}}
+                      {% else %}
+                        no such
+                      {% endif %}
+                      files
+                  </p>
+                  <p class="card-text">
+                      Only next month:
+                      {% if files_count_month %}
+                        {{files_count_month}}
+                      {% else %}
+                        no such
+                      {% endif %}
+                      files
+                  </p>
+                  <p class="card-text">
+                      Only next year:
+                      {% if files_count_year %}
+                        {{files_count_year}}
+                      {% else %}
+                        no such
+                      {% endif %}
+                      files
+                  </p>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <h1> Last upload files:</h1>
+
+    <div id="last_files" files_count="{{files_count}}">
+        {% include 'common/new_random_files.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    var index = 2;
+
+    $(window).scroll(function(){
+        if($(window).scrollTop() + $(window).height() >= $(document).height() && index < $('#last_files').attr('files_count')){
+            $('#last_files').append('<div id="files' + index + '">');
+            $('#files' + index).load(
+                "{% url 'new_last_files' %}?index=" + index
+            );
+            index += 2;
+        }
+    });
+</script>
 {% endblock %}
