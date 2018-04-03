@@ -41,12 +41,16 @@ def file_detail_view(request, pk):
 @login_required
 def profile(request):
     files_count = File.objects.filter(user=request.user).count()
+    available_files_count = File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now()),
+                                      user=request.user).count()
     last_files = File.objects.filter(user=request.user).order_by('-upload_date')[:2]
 
     return render(
         request,
         'userpage/profile.html',
-        context={'files_count': files_count, 'last_files': last_files, },
+        context={'files_count': files_count,
+                 'available_files_count': available_files_count,
+                 'object_list': last_files, },
     )
 
 
