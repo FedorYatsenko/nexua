@@ -52,7 +52,9 @@ def index(request):
                                            time_to_live__lt=time_year
                                            ).count()
 
-    last_files = File.objects.all().order_by('-upload_date')[:2]
+    last_files = File.objects.filter(
+        Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())
+    ).order_by('-upload_date')[:2]
 
     return render(
         request,
@@ -206,4 +208,6 @@ class NewLastFilesListView(generic.ListView):
         def get_queryset(self):
             start_index = int(self.request.GET.get('index'))
 
-            return File.objects.all().order_by('-upload_date')[start_index:(start_index+2)]
+            return File.objects.filter(
+                Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())
+            ).order_by('-upload_date')[start_index:(start_index+2)]
