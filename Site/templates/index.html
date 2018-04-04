@@ -139,25 +139,15 @@
 
     <h1> Last upload files:</h1>
 
-    <div id="last_files" files_count="{{available_files_count}}">
+    <div id="last_files" files_count="{{available_files_count}}" url="{% url 'new_last_files' %}">
         {% include 'common/new_random_files.html' %}
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
-    var index = 2;
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-    $(window).scroll(function(){
-        if($(window).scrollTop() + $(window).height() >= $(document).height() && index < $('#last_files').attr('files_count')){
-            $('#last_files').append('<div id="files' + index + '">');
-            $('#files' + index).load(
-                "{% url 'new_last_files' %}?index=" + index
-            );
-            index += 2;
-        }
-    });
-</script>
+    {% load static %}
+    <script src="{% static 'js/load_new_files.js' %}"> </script>
 {% endblock %}
