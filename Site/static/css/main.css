@@ -1,8 +1,34 @@
 body {
-
+    background-color: #FFFFFF; /*rgba(255, 150, 64, 0.10);*/
 }
 
 nav {
-	background-color: #000000;
+	background-color: #FF9640;
 	font-size: 16pt;
+    padding: 0 !important;
 }
+
+.nav-link {
+    color: white  !important;
+    padding: 15px !important;
+}
+
+.nav-link:hover {
+    color: white  !important;
+}
+
+.nav-item:hover {
+    background-color: #FF7400;
+}
+/*
+.dropdown-menu {
+    background-color: #FF9640;
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.test {
+    background-color: #FFFFFF !important;
+}*/
