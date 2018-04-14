@@ -37,7 +37,7 @@
             {% endif %}
 
             <div>
-              <input type="submit" value="Submit" class="btn btn-primary" />
+              <input type="submit" value="Submit" class="btn btn-success" />
               <input type="hidden" name="next" value="{{ next }}" />
             </div>
             </form>
@@ -45,7 +45,8 @@
             <hr>
 
             {# Assumes you setup the password_reset view in your URLconf #}
-            <p class="text-center"><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            <p class="text-center"><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+            <p class="text-center"><a href="{% url 'password_reset' %}">Forgot username?</a></p>
         </div>
     </div>
 </div>

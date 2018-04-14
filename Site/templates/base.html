@@ -55,7 +55,7 @@
      				UNKNOWN USER
 				{% endif %}
 			</a>
-			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+			<div class="dropdown-menu dropdown-menu-right m-2" aria-labelledby="navbarDropdownMenuLink">
 				{% if user.is_authenticated %}
 					<a class="dropdown-item" href="{% url 'logout'%}?next={% url 'index' %}">Sign out</a>
 				{% else %}
