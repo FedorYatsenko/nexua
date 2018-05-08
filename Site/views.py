@@ -19,6 +19,12 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from django.db.models import Sum
 
+from django.http import HttpResponse
+
+
+def health(request):
+    return HttpResponse(0)
+
 
 def index(request):
     files_count = File.objects.all().count()
