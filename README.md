@@ -1,5 +1,7 @@
 # nexua
 KNU project
+### Посилання на розміщене рішення:
+http://nex-ua.a3c1.starter-us-west-1.openshiftapps.com
 ### Завдання:
 >  ### Хапай-файлопередай
 >  #### Розробити сервіс поширення фалів на кшталт MEGA, RGhost
