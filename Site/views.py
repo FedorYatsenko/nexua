@@ -28,7 +28,8 @@ def health(request):
 
 def index(request):
     files_count = File.objects.all().count()
-    available_files_count = File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).count()
+    available_files_count = File.objects.filter(
+        Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).count()
     user_count = User.objects.all().count()
     dc_total_file_size = File.objects.all().aggregate(total_file_size=Sum('size'))
 
@@ -44,9 +45,9 @@ def index(request):
                                           ).count()
     time_week = timezone.now() + timedelta(weeks=1)
     files_count_week = File.objects.filter(time_to_live__isnull=False,
-                                          time_to_live__gt=timezone.now(),
-                                          time_to_live__lt=time_week
-                                          ).count()
+                                           time_to_live__gt=timezone.now(),
+                                           time_to_live__lt=time_week
+                                           ).count()
     time_month = timezone.now() + timedelta(days=30)
     files_count_month = File.objects.filter(time_to_live__isnull=False,
                                             time_to_live__gt=timezone.now(),
@@ -93,7 +94,7 @@ def file_detail_view(request, pk):
 def profile(request):
     files_count = File.objects.filter(user=request.user).count()
     available_files_count = File.objects.filter(Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now()),
-                                      user=request.user).count()
+                                                user=request.user).count()
     last_files = File.objects.filter(user=request.user).order_by('-upload_date')[:2]
 
     return render(
@@ -110,7 +111,7 @@ def handle_uploaded_file(f, path):
         for chunk in f.chunks():
             dest.write(chunk)
 
-  
+
 """
 def handle_uploaded_file(request):
     save_path = os.path.join(settings.MEDIA_ROOT, 'uploads', request.FILES.get('file'))
@@ -120,41 +121,43 @@ def handle_uploaded_file(request):
 
 def upload(request):
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
         uploaded_file = File()
         uploaded_file.file_itself = request.FILES['file']
-       # uploaded_file.upload_date = datetime.datetime.now(timezone.now().tzinfo)
         uploaded_file.upload_date = timezone.now()
         uploaded_file.size = StandartFile(request.FILES['file']).size
-        rand_id = str(random.randint(0, 10000))
+
         uploaded_file_name = StandartFile(request.FILES['file']).name
         filename, file_extension = os.path.splitext(uploaded_file_name)
-        uploaded_file.path_on_disk = "D:\\" + filename + rand_id + file_extension
-        uploaded_file.link = filename + rand_id
-        uploaded_file.file_name = uploaded_file_name
-        uploaded_file.file_type = file_extension
-        uploaded_file.time_to_live = datetime.timedelta(days=2)
+
+        uploaded_file.file_name = filename
+        uploaded_file.file_type = file_extension[1:]
         uploaded_file.user = request.user
         uploaded_file.save()
-        handle_uploaded_file(request.FILES.get('file'), "D:\\" + filename + rand_id + file_extension)
+
+        file_url = uploaded_file.get_absolute_url()
         return render(
             request,
             'userpage/upload.html',
-            context={},)
+            context={
+                'file_name': uploaded_file_name,
+                'file_url': file_url,
+            },
+        )
     return render(
         request,
         'userpage/upload.html',
         context={},
     )
 
+
 # if request.method == 'POST' and request.FILES['myfile']:
-    #     myfile = request.FILES['myfile']
-    #     fs = FileSystemStorage()
-    #     filename = fs.save(myfile.name, myfile)
-    #     uploaded_file_url = fs.url(filename)
-    #     return render(request, 'upload.html', {
-    #         'uploaded_file_url': uploaded_file_url
-    #     })
+#     myfile = request.FILES['myfile']
+#     fs = FileSystemStorage()
+#     filename = fs.save(myfile.name, myfile)
+#     uploaded_file_url = fs.url(filename)
+#     return render(request, 'upload.html', {
+#         'uploaded_file_url': uploaded_file_url
+#     })
 
 
 class MyFilesListView(LoginRequiredMixin, generic.ListView):
@@ -175,7 +178,7 @@ class RandomFilesListView(generic.ListView):
         return File.objects.filter(
             Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).order_by('?')[:2]
 
-      
+
 class NewRandomFilesListView(generic.ListView):
     model = File
     template_name = 'common/new_random_files.html'
@@ -208,12 +211,12 @@ class NewRandomFilesListView(generic.ListView):
 
 
 class NewLastFilesListView(generic.ListView):
-        model = File
-        template_name = 'common/new_random_files.html'
+    model = File
+    template_name = 'common/new_random_files.html'
 
-        def get_queryset(self):
-            start_index = int(self.request.GET.get('index'))
+    def get_queryset(self):
+        start_index = int(self.request.GET.get('index'))
 
-            return File.objects.filter(
-                Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())
-            ).order_by('-upload_date')[start_index:(start_index+2)]
+        return File.objects.filter(
+            Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())
+        ).order_by('-upload_date')[start_index:(start_index + 2)]

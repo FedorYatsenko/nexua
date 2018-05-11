@@ -44,8 +44,6 @@ class File(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     file_name = models.CharField(max_length=50, help_text="Enter file name", verbose_name="File name")
     upload_date = models.DateTimeField(verbose_name="Date of file upload")
-    link = models.CharField(max_length=50, verbose_name="Link to file")
-    path_on_disk = models.CharField(max_length=50, verbose_name="Path on disk")
     time_to_live = models.DateTimeField(verbose_name="Delete Date", blank=True, null=True)
     file_type = models.CharField(max_length=50, help_text="Enter file type", verbose_name="File type")
     size = models.IntegerField()
