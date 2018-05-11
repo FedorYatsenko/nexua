@@ -1,23 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-<div class="row">
-  <div class="col col-md-3"></div>
-  <div class="col col-md-6">
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="file" class="form-control-file"/>
-  <br/>
-    <button type="submit" class="btn btn-secondary">Upload</button>
-  </form>
+    <div class="container">
+    <div class="row justify-content-md-center align-items-center">
+        <div class="col-md-6">
+            <h1>Upload file</h1>
 
-  {% if uploaded_file_url %}
-    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-  {% endif %}
-  </div>
-  <div class="col col-md-3"></div>
-</div>
-</div>
+            <hr>
 
+            {% if file_url %}
+                <div class="alert alert-success" role="alert">
+                    File <a href="{{ file_url }}">"{{ file_name }}"</a> upload success.
+                </div>
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="file" name="file" class="form-control-file" id="file" required/>
+                </div>
+
+                 <hr>
+
+                <div>
+                    <button type="submit" class="btn btn-secondary">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
