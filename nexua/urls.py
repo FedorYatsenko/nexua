@@ -20,12 +20,12 @@ from django.conf.urls import url
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
-from  Site.views import health
+from  site.views import health
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^health$', health),
-    url(r'^Site/', include('Site.urls')),
-    url(r'^$', RedirectView.as_view(url='/Site/', permanent=True)),
+    url(r'^site/', include('site.urls')),
+    url(r'^$', RedirectView.as_view(url='/site/', permanent=True)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
