@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Site.apps.SiteConfig',
+    'site.apps.SiteConfig',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +119,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/Site/profile'
+LOGIN_REDIRECT_URL = '/site/profile'
 
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
