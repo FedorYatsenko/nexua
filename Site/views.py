@@ -119,6 +119,7 @@ def handle_uploaded_file(request):
 """
 
 
+@login_required
 def upload(request):
     if request.method == 'POST':
         uploaded_file = File()
