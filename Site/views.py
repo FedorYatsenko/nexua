@@ -191,7 +191,7 @@ class NewRandomFilesListView(generic.ListView):
             if ttl == "hour":
                 time_hour = timezone.now() + timedelta(hours=1)
                 return File.objects.filter(time_to_live__isnull=False,
-                                           time_to_live__gt=timezone.now(),
+                                           time_to_live__gt=datetime.now(),
                                            time_to_live__lt=time_hour
                                            ).order_by('?')[:2]
             elif ttl == "day":
