@@ -29,7 +29,7 @@ def health(request):
 def index(request):
     files_count = File.objects.all().count()
     available_files_count = File.objects.filter(
-        Q(time_to_live__isnull=True) | Q(time_to_live__gt=timezone.now())).count()
+        Q(time_to_live__isnull=True) | Q(time_to_live__gt=datetime.now().date())).count()
     user_count = User.objects.all().count()
     dc_total_file_size = File.objects.all().aggregate(total_file_size=Sum('size'))
 
