@@ -196,10 +196,9 @@ def signup(request):
 
 
 def account_activation_sent(request):
-
     return render(
         request,
-        'index.html',
+        'account_activation_sent.html',
         context={},
     )
 
