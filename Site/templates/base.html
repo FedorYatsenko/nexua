@@ -61,7 +61,7 @@
 					<a class="dropdown-item" href="{% url 'logout'%}?next={% url 'index' %}">Sign out</a>
 				{% else %}
 					<a class="dropdown-item" href="{% url 'login'%}">Sign in</a>
-			  		<a class="dropdown-item" href="#">Sign up</a>
+			  		<a class="dropdown-item" href="{% url 'signup'%}">Sign up</a>
 				{% endif %}
 			</div>
 		  </li>
