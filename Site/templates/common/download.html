@@ -1,5 +1,62 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3> Download file </h3>
+    <div class="container mt-5">
+        <div class="row justify-content-md-center align-items-center">
+            <div class="col-md-10">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3>{{ file.get_fullname }}</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 align-self-center">
+                                {% load static %}
+                                <img class="card-img-bottom" src="{% static file.get_logo %}" alt="Card image">
+                            </div>
+
+                            <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10">
+                                <p class="card-text">Owner: {{file.user.get_username}}</p>
+                                <p class="card-text">Size: {{file.get_size}}</p>
+                                {% if file.time_to_live %}
+                                    <p class="text-danger">File will be deleted in {{file.get_time_to_delete}}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <h5 class="col-sm-5 col-md-4 col-lg-3 col-xl-2 align-self-right card-title"> Link: </h5>
+                            <p id="link" class="col-sm-7 col-md-8 col-lg-9 col-xl-10 align-self-left">{{ request.build_absolute_uri }}</p>
+                        </div>
+
+                        <hr>
+
+                        <div>
+                            <button id="copy_button" class="btn btn-primary mr-4"> Copy link </button>
+                            <a href="{{ file.file_itself }}" class="btn btn-primary" download> Download </a>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        Upload {{file.get_upload_time}} ago
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#copy_button").on("click", function copy_button_click() {
+          var $temp = $("<input>");
+          $("body").append($temp);
+          $temp.val($("#link").text()).select();
+          document.execCommand("copy");
+          $temp.remove();
+        })
+    </script>
 {% endblock %}

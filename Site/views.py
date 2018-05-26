@@ -93,12 +93,12 @@ def index(request):
 
 
 def file_detail_view(request, pk):
-    file_id = File.objects.get(pk=pk)
+    file = File.objects.get(pk=pk)
 
     return render(
         request,
         'common/download.html',
-        context={'file': file_id, }
+        context={'file': file}
     )
 
 
