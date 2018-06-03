@@ -22,8 +22,24 @@
 
                  <hr>
 
+                <label>File time to live: </label>
+
+                {% csrf_token %}
+                 <div class="form-group">
+                     <select name="ttl">
+                         <option value="hour">1 hour</option>
+                         <option value="day">1 day</option>
+                         <option value="week">1 week</option>
+                         <option value="month">1 month</option>
+                         <option value="year">1 year</option>
+                     </select>
+                 </div>
+
+                <br />
+                <br />
+
                 <div>
-                    <button type="submit" class="btn btn-secondary">Upload</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
                 </div>
             </form>
         </div>

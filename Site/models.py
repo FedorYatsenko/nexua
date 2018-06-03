@@ -51,7 +51,7 @@ class File(models.Model):
     file_itself = models.FileField()
 
     def __str__(self):
-        return 'id: %s  name: %s date: %s type: %s size: %s user: %s' % (self.id, self.file_name, self.upload_date, self.file_type, self.size, self.user.__str__())
+        return 'id: %s  name: %s date: %s type: %s size: %s user: %s ttl: %s' % (self.id, self.file_name, self.upload_date, self.file_type, self.size, self.user.__str__(), self.time_to_live)
 
     def get_absolute_url(self):
         return reverse('file-detail', args=[str(self.id)])

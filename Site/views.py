@@ -148,6 +148,27 @@ def upload(request):
         uploaded_file.save()
 
         file_url = uploaded_file.get_absolute_url()
+
+        selected_ttl = request.POST.get('ttl')
+        delete_date = timezone.now()
+
+        if (selected_ttl == "hour"):
+            delete_date += datetime.timedelta(hours=1)
+
+        if (selected_ttl == "day"):
+            delete_date += datetime.timedelta(days=1)
+
+        if (selected_ttl == "week"):
+            delete_date += datetime.timedelta(weeks=1)
+
+        if (selected_ttl == "month"):
+            delete_date += datetime.timedelta(days=30)
+
+        if (selected_ttl == "year"):
+            delete_date += datetime.timedelta(days=365)
+
+        uploaded_file.time_to_live = delete_date
+
         return render(
             request,
             'userpage/upload.html',
