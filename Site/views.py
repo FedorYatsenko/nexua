@@ -12,7 +12,6 @@ from django.db.models import Q
 
 from .models import File, User
 from django.core.files.storage import FileSystemStorage
-from .forms import UploadFileForm
 import datetime
 import os
 from django.core.files.storage import default_storage
@@ -115,12 +114,6 @@ def profile(request):
                  'available_files_count': available_files_count,
                  'object_list': last_files, },
     )
-
-
-def handle_uploaded_file(f, path):
-    with open(path, 'wb+') as dest:
-        for chunk in f.chunks():
-            dest.write(chunk)
 
 
 @login_required

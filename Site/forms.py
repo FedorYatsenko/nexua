@@ -3,11 +3,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
-class UploadFileForm(forms.Form):
-    # title = forms.CharField(max_length=50)
-    file = forms.FileField()
-
-
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(min_length=1, max_length=30, required=True, help_text='Required.')
     last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
