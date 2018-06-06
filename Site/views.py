@@ -20,7 +20,6 @@ from django.conf import settings
 from django.db.models import Sum
 
 from django.http import HttpResponse
-from Site.forms import SignUpForm
 
 
 def health(request):
@@ -124,13 +123,6 @@ def handle_uploaded_file(f, path):
             dest.write(chunk)
 
 
-"""
-def handle_uploaded_file(request):
-    save_path = os.path.join(settings.MEDIA_ROOT, 'uploads', request.FILES.get('file'))
-    path = default_storage.save(save_path, request.FILES.get('file'))
-"""
-
-
 @login_required
 def upload(request):
     if request.method == 'POST':
@@ -182,16 +174,6 @@ def upload(request):
         'userpage/upload.html',
         context={},
     )
-
-
-# if request.method == 'POST' and request.FILES['myfile']:
-#     myfile = request.FILES['myfile']
-#     fs = FileSystemStorage()
-#     filename = fs.save(myfile.name, myfile)
-#     uploaded_file_url = fs.url(filename)
-#     return render(request, 'upload.html', {
-#         'uploaded_file_url': uploaded_file_url
-#     })
 
 
 def signup(request):
