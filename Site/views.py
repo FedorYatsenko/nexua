@@ -138,6 +138,9 @@ def upload(request):
         selected_ttl = request.POST.get('ttl')
         delete_date = timezone.now()
 
+        if (selected_ttl == "none"):
+            delete_date = None
+
         if (selected_ttl == "hour"):
             delete_date += datetime.timedelta(hours=1)
 
@@ -154,6 +157,7 @@ def upload(request):
             delete_date += datetime.timedelta(days=365)
 
         uploaded_file.time_to_live = delete_date
+        uploaded_file.save()
 
         return render(
             request,

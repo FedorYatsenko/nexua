@@ -27,6 +27,7 @@
                 {% csrf_token %}
                  <div class="form-group">
                      <select name="ttl">
+                         <option value="none"> none (forever)</option>
                          <option value="hour">1 hour</option>
                          <option value="day">1 day</option>
                          <option value="week">1 week</option>
