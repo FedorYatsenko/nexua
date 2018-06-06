@@ -34,7 +34,7 @@
 
                         <hr>
 
-                        <div>
+                        <div id="buttons">
                             <button id="copy_button" class="btn btn-primary mr-4"> Copy link </button>
                             <a href="{{ file.file_itself }}" class="btn btn-primary" download> Download </a>
                         </div>
@@ -50,13 +50,6 @@
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        $("#copy_button").on("click", function copy_button_click() {
-          var $temp = $("<input>");
-          $("body").append($temp);
-          $temp.val($("#link").text()).select();
-          document.execCommand("copy");
-          $temp.remove();
-        })
-    </script>
+    {% load static %}
+    <script src="{% static 'js/copy.js' %}"> </script>
 {% endblock %}
