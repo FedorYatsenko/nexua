@@ -20,6 +20,8 @@ from django.db.models import Sum
 
 from django.http import HttpResponse
 
+from Site.forms import SignUpForm, LoginRestoreForm
+
 
 def health(request):
     return HttpResponse(0)
@@ -29,7 +31,6 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
-from Site.forms import SignUpForm
 from Site.tokens import account_activation_token
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
@@ -214,6 +215,36 @@ def activate(request, uidb64, token):
         return redirect('profile')
     else:
         return render(request, 'account_activation_invalid.html')
+
+
+def login_restore_sent(request):
+    return render(
+        request,
+        'login_restore_sent.html',
+        context={},
+    )
+
+
+def login_restore(request):
+    if request.method == 'POST':
+        form = LoginRestoreForm(request.POST)
+        if form.is_valid():
+            try:
+                users = User.objects.get(email=form.cleaned_data['email'])
+
+                subject = 'Restore Your nex.ua username'
+                message = render_to_string('login_restore_email.html', {
+                    'fullname': users.get_full_name(),
+                    'login': users.username,
+                })
+                users.email_user(subject, message)
+                return redirect('login_restore_sent')
+            except User.DoesNotExist:
+                form.add_error("email", "User with such email not found")
+    else:
+        form = LoginRestoreForm()
+
+    return render(request, 'login_restore.html', {'form': form})
 
 
 class MyFilesListView(LoginRequiredMixin, generic.ListView):
