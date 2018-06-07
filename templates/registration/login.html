@@ -43,6 +43,9 @@
             </form>
 
             <hr>
+            <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
+            <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
+            <hr>
 
             {# Assumes you setup the password_reset view in your URLconf #}
             <p class="text-center"><a href="{% url 'password_reset' %}">Forgot password?</a></p>
