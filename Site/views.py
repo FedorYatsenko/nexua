@@ -97,7 +97,8 @@ def file_detail_view(request, pk):
     return render(
         request,
         'common/download.html',
-        context={'file': file}
+        context={'file': file,
+                 'media': settings.MEDIA_URL}
     )
 
 

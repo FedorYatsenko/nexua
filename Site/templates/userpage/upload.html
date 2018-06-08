@@ -4,10 +4,7 @@
     <div class="container">
     <div class="row justify-content-md-center align-items-center">
         <div class="col-md-6">
-            <h1>Upload file</h1>
-
-            <hr>
-
+            <h1 class="text-center">Upload file</h1>
             {% if file_url %}
                 <div class="alert alert-success" role="alert">
                     File <a href="{{ file_url }}">"{{ file_name }}"</a> upload success.
@@ -17,16 +14,14 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
+                    <label>File: </label>
                     <input type="file" name="file" class="form-control-file" id="file" required/>
                 </div>
 
-                 <hr>
-
-                <label>File time to live: </label>
-
                 {% csrf_token %}
                  <div class="form-group">
-                     <select name="ttl">
+                     <label>File time to live: </label>
+                     <select name="ttl" class="form-control">
                          <option value="none"> none (forever)</option>
                          <option value="hour">1 hour</option>
                          <option value="day">1 day</option>
@@ -36,14 +31,16 @@
                      </select>
                  </div>
 
-               <br />
-                <br />
-
                 <div>
-                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <input type="submit" class="btn btn-primary" value="Upload"/>
                 </div>
             </form>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="{% static 'js/set_input_class.js' %}"> </script>
 {% endblock %}
