@@ -126,6 +126,7 @@ LOGIN_REDIRECT_URL = '/Site/profile'
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+MEDIA_URL = '/media/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'nexua.signup@gmail.com'
